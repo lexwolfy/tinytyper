@@ -65,8 +65,15 @@ export default function Home() {
         const voices = window.speechSynthesis.getVoices();
         console.log('📢 Available voices:', voices.length);
 
+        // Log all Chinese voices for debugging
+        if (lang === 'chinese') {
+          const chineseVoices = voices.filter(v => v.lang.startsWith('zh'));
+          console.log('🇨🇳 Chinese voices found:', chineseVoices.map(v => `${v.name} (${v.lang})`));
+        }
+
         // Find the best voice for this language
-        // Prioritize: 1) local voices, 2) voices matching the exact language
+        // Prioritize: 1) local voices matching exact lang, 2) local voices matching lang prefix,
+        // 3) any voices matching exact lang, 4) any voices matching lang prefix
         const bestVoice = voices.find(voice =>
           voice.lang === langCode && voice.localService
         ) || voices.find(voice =>
@@ -79,9 +86,10 @@ export default function Home() {
 
         if (bestVoice) {
           utterance.voice = bestVoice;
-          console.log('✅ Using voice:', bestVoice.name);
+          console.log('✅ Using voice:', bestVoice.name, '(', bestVoice.lang, ')');
         } else {
           console.log('⚠️ No voice found for', langCode);
+          console.log('All available voices:', voices.map(v => `${v.name} (${v.lang})`));
         }
 
         // Adjust speech parameters for better quality
@@ -168,19 +176,21 @@ export default function Home() {
       setCurrentLetter(letterData);
 
       // Create a phrase combining the letter and word
-      const word = letterData.words[currentLanguage].word;
       let phrase = '';
 
       switch (currentLanguage) {
         case 'english':
-          phrase = `${key} for ${word}`;
+          const englishWord = letterData.words[currentLanguage].word;
+          phrase = `${key} for ${englishWord}`;
           break;
         case 'french':
-          phrase = `${key} comme ${word}`;
+          const frenchWord = letterData.words[currentLanguage].word;
+          phrase = `${key} comme ${frenchWord}`;
           break;
         case 'chinese':
-          // For Chinese, just say the word since it's already meaningful
-          phrase = word;
+          // For Chinese, use the actual Chinese characters, not pinyin
+          const chineseChars = letterData.words[currentLanguage].chinese;
+          phrase = chineseChars;
           break;
       }
 
