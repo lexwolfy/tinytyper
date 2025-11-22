@@ -268,7 +268,7 @@ export default function Home() {
           </div>
           <div className="flex gap-3">
             <a
-              href="https://github.com/aageorges/tinytyper/releases/latest/download/TinyTyper.dmg"
+              href="https://github.com/lexwolfy/tinytyper/releases/latest/download/TinyTyper.dmg"
               className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors flex items-center gap-2"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -277,7 +277,7 @@ export default function Home() {
               Mac
             </a>
             <a
-              href="https://github.com/aageorges/tinytyper/releases/latest/download/TinyTyper.exe"
+              href="https://github.com/lexwolfy/tinytyper/releases/latest/download/TinyTyper.exe"
               className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors flex items-center gap-2"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
@@ -286,7 +286,7 @@ export default function Home() {
               Windows
             </a>
             <a
-              href="https://github.com/aageorges/tinytyper/releases/latest/download/TinyTyper.AppImage"
+              href="https://github.com/lexwolfy/tinytyper/releases/latest/download/TinyTyper.AppImage"
               className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors flex items-center gap-2"
             >
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">

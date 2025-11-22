@@ -1,6 +1,6 @@
 {
   "name": "tinytyper",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A fun, multilingual keyboard learning app for young children to learn the alphabet in English, French, and Chinese",
   "author": {
     "name": "lexwolfy",
@@ -49,6 +49,7 @@
   "build": {
     "appId": "com.tinytyper.app",
     "productName": "TinyTyper",
+    "artifactName": "${productName}.${ext}",
     "files": [
       "dist/**/*",
       "out/**/*",
