@@ -167,14 +167,25 @@ export default function Home() {
     if (letterData) {
       setCurrentLetter(letterData);
 
-      // Speak the letter first
-      speak(key, currentLanguage);
+      // Create a phrase combining the letter and word
+      const word = letterData.words[currentLanguage].word;
+      let phrase = '';
 
-      // Then speak the word after a short delay
-      setTimeout(() => {
-        const word = letterData.words[currentLanguage].word;
-        speak(word, currentLanguage);
-      }, 800);
+      switch (currentLanguage) {
+        case 'english':
+          phrase = `${key} for ${word}`;
+          break;
+        case 'french':
+          phrase = `${key} comme ${word}`;
+          break;
+        case 'chinese':
+          // For Chinese, just say the word since it's already meaningful
+          phrase = word;
+          break;
+      }
+
+      // Speak the phrase
+      speak(phrase, currentLanguage);
 
       // Start countdown timer for the next keypress
       startThrottleCountdown(THROTTLE_MS);
@@ -227,7 +238,20 @@ export default function Home() {
       <div className="absolute top-0 left-0 right-0 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 px-4 shadow-lg z-50">
         <div className="max-w-6xl mx-auto flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-2xl">💾</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="w-5 h-5"
+            >
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
             <p className="text-sm font-semibold">
               Download the desktop app for the best experience!
             </p>
@@ -237,19 +261,28 @@ export default function Home() {
               href="https://github.com/aageorges/tinytyper/releases/latest/download/TinyTyper.dmg"
               className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors flex items-center gap-2"
             >
-              <span>🍎</span> Mac
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
+              </svg>
+              Mac
             </a>
             <a
               href="https://github.com/aageorges/tinytyper/releases/latest/download/TinyTyper.exe"
               className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors flex items-center gap-2"
             >
-              <span>🪟</span> Windows
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/>
+              </svg>
+              Windows
             </a>
             <a
               href="https://github.com/aageorges/tinytyper/releases/latest/download/TinyTyper.AppImage"
               className="bg-white text-purple-600 px-4 py-2 rounded-lg font-semibold text-sm hover:bg-purple-50 transition-colors flex items-center gap-2"
             >
-              <span>🐧</span> Linux
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4">
+                <path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.632-.458 1.303-.53 2.012-.04.39-.04.77-.03 1.146.06 2.073 1.145 4.304 3.065 5.855 3.678 2.97 10.556 3.222 14.221-.316 2.687-2.591 3.38-6.591 1.517-9.494l-.203-.31c-1.21-1.862-2.012-1.84-3.08-3.456-.762-1.151-1.395-3.357-1.741-4.622C17.705 2.226 15.06 0 12.504 0zm-.529 4.705c.25.004.505.03.76.09.543.126 1.035.39 1.475.784.22.197.41.42.584.663.348.486.58 1.056.693 1.672.112.616.104 1.268-.025 1.921-.129.653-.38 1.293-.753 1.881-.373.587-.873 1.111-1.479 1.515-.303.202-.63.375-.977.515-.347.14-.717.247-1.095.318-.189.035-.38.063-.573.082-.193.02-.388.03-.584.027-.392-.006-.784-.06-1.167-.16-.191-.05-.381-.11-.566-.181-.185-.07-.365-.15-.54-.241-.35-.182-.678-.4-.983-.652-.61-.506-1.146-1.148-1.555-1.872-.41-.724-.693-1.53-.82-2.361-.064-.416-.09-.836-.077-1.255.013-.42.061-.838.145-1.249.168-.822.477-1.61.916-2.324.439-.714 1.009-1.35 1.687-1.866.339-.258.704-.482 1.089-.664.192-.091.39-.17.59-.236.2-.066.405-.12.612-.16.207-.04.416-.068.626-.082.105-.007.21-.01.316-.009z"/>
+              </svg>
+              Linux
             </a>
           </div>
         </div>
@@ -274,37 +307,37 @@ export default function Home() {
       {/* Main Letter Display */}
       <div className="flex flex-col items-center gap-8">
         {currentLetter ? (
-          <div className="flex flex-col items-center gap-6 animate-in fade-in zoom-in duration-500">
+          <div className="flex flex-col items-center gap-4 animate-in fade-in zoom-in duration-500">
             {/* Letter */}
-            <div className="bg-white rounded-3xl shadow-2xl p-16 min-w-[300px] flex items-center justify-center">
-              <span className="text-[200px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
+            <div className="bg-white rounded-3xl shadow-2xl p-10 min-w-[240px] flex items-center justify-center">
+              <span className="text-[140px] font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
                 {currentLetter.letter}
               </span>
             </div>
 
             {/* Emoji */}
-            <div className="text-9xl animate-gentle-bounce">
+            <div className="text-7xl animate-gentle-bounce">
               {currentLetter.words[currentLanguage].emoji}
             </div>
 
             {/* Word */}
-            <div className="bg-white rounded-2xl shadow-xl px-8 py-4">
+            <div className="bg-white rounded-2xl shadow-xl px-6 py-3">
               {currentLanguage === 'chinese' ? (
                 <>
-                  <p className="text-4xl font-bold text-gray-800">
+                  <p className="text-3xl font-bold text-gray-800">
                     {currentLetter.words[currentLanguage].chinese}
                   </p>
-                  <p className="text-2xl text-gray-600 mt-2">
+                  <p className="text-xl text-gray-600 mt-1">
                     {currentLetter.words[currentLanguage].pinyin}
                   </p>
                 </>
               ) : (
                 <>
-                  <p className="text-4xl font-bold text-gray-800">
+                  <p className="text-3xl font-bold text-gray-800">
                     {currentLetter.words[currentLanguage].word}
                   </p>
                   {currentLetter.words[currentLanguage].chinese && (
-                    <p className="text-2xl text-gray-600 mt-2">
+                    <p className="text-xl text-gray-600 mt-1">
                       {currentLetter.words[currentLanguage].chinese} ({currentLetter.words[currentLanguage].pinyin})
                     </p>
                   )}
