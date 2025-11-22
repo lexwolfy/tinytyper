@@ -1,6 +1,11 @@
 {
   "name": "tinytyper",
   "version": "0.1.1",
+  "description": "A fun, multilingual keyboard learning app for young children to learn the alphabet in English, French, and Chinese",
+  "author": {
+    "name": "lexwolfy",
+    "email": "noreply@github.com"
+  },
   "private": true,
   "main": "dist/main.js",
   "scripts": {
