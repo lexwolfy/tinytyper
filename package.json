@@ -2,25 +2,77 @@
   "name": "tinytyper",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/main.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "electron:dev": "npm run build:electron && cross-env NODE_ENV=production electron .",
+    "electron:start": "concurrently -k \"next dev\" \"wait-on http://localhost:3000 && cross-env NODE_ENV=development electron .\"",
+    "build:electron": "tsc -p electron/tsconfig.json",
+    "build:app": "next build",
+    "dist": "npm run build:app && npm run build:electron && electron-builder",
+    "dist:mac": "npm run dist -- --mac",
+    "dist:win": "npm run dist -- --win",
+    "dist:linux": "npm run dist -- --linux",
+    "release": "bash scripts/release.sh"
   },
   "dependencies": {
+    "electron": "^39.2.3",
+    "electron-is-dev": "^3.0.1",
+    "electron-serve": "^3.0.0",
     "next": "16.0.3",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/electron": "^1.4.38",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron-builder": "^26.0.12",
     "eslint": "^9",
     "eslint-config-next": "16.0.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wait-on": "^9.0.3"
+  },
+  "build": {
+    "appId": "com.tinytyper.app",
+    "productName": "TinyTyper",
+    "files": [
+      "dist/**/*",
+      "out/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "release"
+    },
+    "mac": {
+      "category": "public.app-category.education",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Education"
+    }
   }
 }
